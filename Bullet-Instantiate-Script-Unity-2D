@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BulletInstantiate : MonoBehaviour
+{
+    [SerializeField] private GameObject bulletPrefab; // The prefab of the bullet object
+    [SerializeField] private Transform spawnPoint; // The point where the bullet will be spawned
+    [SerializeField] private float bulletSpeed = 10f; // The speed at which the bullet will move
+    [SerializeField] private float bulletLifetime = 4f; // The time (in seconds) the bullets will live before getting destroyed
+    [SerializeField] private Transform player;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+
+
+            GameObject newBullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation); 
+            Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
+
+
+            if (player.transform.localScale.x < 0)
+            {
+                rb.velocity = transform.right * -1 * bulletSpeed;
+
+                //rb.velocity = new Vector2(bulletSpeed*-1, 0f);
+            }
+
+            if (player.transform.localScale.x > 0)
+            {
+                rb.velocity = transform.right * bulletSpeed;
+
+                //rb.velocity = new Vector2(bulletSpeed, 0f);
+
+            }
+
+            // rb.velocity = transform.right * bulletSpeed;
+
+
+            // Destroy the bullet after the set amount of time
+            Destroy(newBullet, bulletLifetime);
+        }
+    }
+}
